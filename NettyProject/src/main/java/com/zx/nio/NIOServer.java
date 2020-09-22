@@ -38,7 +38,7 @@ public class NIOServer {
         Selector selector = Selector.open();
         //把创建ServerSocketChannel注册到selector上 关联事件为accept
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-
+        System.out.println("selectionKey数量:" + selector.keys().size());//1
         while (true) {
             //等待连接事件 1秒 ,如果没有事件发生 返回
             if (selector.select(1000) == 0) {
@@ -62,8 +62,11 @@ public class NIOServer {
                         // 将客户端SocketChannel 注册到selector中, 从中获取数据OP_READ
                         // 同时给SocketChannel关联一个buffer
                         socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+
+                        //打印注册后的selectionKey数量
+                        System.out.println("selectionKey数量:" + selector.keys().size());//2,3,4...
                     } catch (Exception ex) {
-                        selectionKey.channel();
+                        selectionKey.cancel();
                         socketChannel.socket().close();
                         socketChannel.close();
                     }
@@ -76,7 +79,7 @@ public class NIOServer {
                         channel.read(byteBuffer);
                         System.out.println("from 客户端:" + new String(byteBuffer.array()));
                     } catch (Exception ex) {
-                        selectionKey.channel();
+                        selectionKey.cancel();
                         channel.socket().close();
                         channel.close();
                     }
