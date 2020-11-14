@@ -53,9 +53,10 @@ public class MyServer {
                             //可以看到webSocketFrame下面有6个子类
                             //浏览器请求 ws://localHost:7000/hello
                             //WebSocketServerProtocolHandler核心功能是将http转成ws协议 保持长连接
+                            //请求状态码101
                             pipeline.addLast(new WebSocketServerProtocolHandler("/hello"));
                             //加入处理业务的handler(自定义)
-                            pipeline.addLast(null);
+                            pipeline.addLast(new MyTextWebSocketFrameHandler());
                         }
                     });
 
