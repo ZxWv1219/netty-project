@@ -1,9 +1,8 @@
-package com.zx.buf;
+package com.zx.netty.buf;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
