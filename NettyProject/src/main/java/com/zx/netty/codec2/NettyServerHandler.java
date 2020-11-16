@@ -1,6 +1,6 @@
-package com.zx.netty.codec;
+package com.zx.netty.codec2;
 
-import io.netty.buffer.ByteBuf;
+import com.zx.netty.codec.StudentPOJO;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -23,8 +23,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        StudentPOJO.Student student = (StudentPOJO.Student) msg;
-        System.out.println("客户端发送的数据 id=" + student.getId() + " name=" + student.getName());
+        MyDataInfo.MyMessage myMessage = (MyDataInfo.MyMessage) msg;
+        if (myMessage.getDataType() == MyDataInfo.MyMessage.DataType.StudentType) {
+            System.out.println("客户端发送的数据 id=" + myMessage.getStudent().getId() + " name=" + myMessage.getStudent().getName());
+        }
+        if (myMessage.getDataType() == MyDataInfo.MyMessage.DataType.WorkerType) {
+            System.out.println("客户端发送的数据 age=" + myMessage.getWorker().getAge() + " name=" + myMessage.getWorker().getName());
+        }
+
     }
 
     @Override

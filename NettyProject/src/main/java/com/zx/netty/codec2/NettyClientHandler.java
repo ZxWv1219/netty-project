@@ -1,10 +1,12 @@
-package com.zx.netty.codec;
+package com.zx.netty.codec2;
 
+import com.zx.netty.codec.StudentPOJO;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
+
+import java.util.Random;
 
 /**
  * @author Zx
@@ -20,9 +22,25 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        //发送一人student对象到服务器
-        StudentPOJO.Student student = StudentPOJO.Student.newBuilder().setId(4).setName("张三").build();
-        ctx.writeAndFlush(student);
+
+        int random = new Random().nextInt(3);
+        MyDataInfo.MyMessage myMessage = null;
+        switch (random) {
+            case 0:
+                myMessage = MyDataInfo.MyMessage.newBuilder().setDataType(MyDataInfo.MyMessage.DataType.StudentType)
+                        .setStudent(MyDataInfo.Student.newBuilder().setId(5).setName("学习1"))
+                        .build();
+                break;
+            case 1:
+                myMessage = MyDataInfo.MyMessage.newBuilder().setDataType(MyDataInfo.MyMessage.DataType.WorkerType)
+                        .setWorker(MyDataInfo.Worker.newBuilder().setAge(15).setName("worker1"))
+                        .build();
+                break;
+            default:
+                break;
+        }
+
+        ctx.writeAndFlush(myMessage);
     }
 
     /**
