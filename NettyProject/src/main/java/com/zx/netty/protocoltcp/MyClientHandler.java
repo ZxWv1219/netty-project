@@ -17,14 +17,17 @@ public class MyClientHandler extends SimpleChannelInboundHandler<MessageProtocol
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageProtocol msg) throws Exception {
+        int len = msg.getLen();
+        byte[] content = msg.getContent();
 
+        System.out.println(new String(content, StandardCharsets.UTF_8));
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
         for (int i = 0; i < 10; i++) {
-            String msg = "哇哈哈";
+            String msg = "哇哈哈哇哈哈哇哈哈哇哈哈哇哈哈哇哈哈哇哈哈哇哈哈";
             byte[] bytes = msg.getBytes(StandardCharsets.UTF_8);
             int length = bytes.length;
 
