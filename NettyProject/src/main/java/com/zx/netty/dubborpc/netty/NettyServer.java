@@ -36,7 +36,7 @@ public class NettyServer {
                             pipeline.addLast(new StringDecoder());
                             pipeline.addLast(new StringEncoder());
                             //业务handler
-                            pipeline.addLast(null);
+                            pipeline.addLast(new NettyServerHandler());
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(hostname, port).sync();
